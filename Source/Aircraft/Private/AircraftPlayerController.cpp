@@ -7,7 +7,10 @@
 AAircraftPlayerController::AAircraftPlayerController()
 	: InputMappingContext(nullptr),
 	  MoveAction(nullptr),
-	  LookAction(nullptr)
+	  StartUpDownAction(nullptr),
+	  StopUpDownAction(nullptr),
+	  LookAction(nullptr),
+	  RollAction(nullptr)
 {
 }
 

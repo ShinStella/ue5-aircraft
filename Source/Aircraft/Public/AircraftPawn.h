@@ -30,7 +30,21 @@ public:
 	void Move(const FInputActionValue& Value);
 
 	UFUNCTION(BlueprintCallable, Category = "Pawn")
+	void StartUpDown(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Pawn")
+	void StopUpDown(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Pawn")
 	void Look(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Pawn")
+	void Roll(const FInputActionValue& Value);
+
+public:
+	void ApplyGravity(float DeltaTime);
+	bool CheckLanding(float Distance);
+	void OnLanding();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn")
@@ -44,4 +58,16 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn")
 	UCameraComponent* CameraComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn|Speed")
+	float MoveSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn|Speed")
+	float FallingSpeed;
+
+private:
+	float ZOnGound;
+	bool IsFlying;
+	bool IsUp;
+	float GForce;
 };
