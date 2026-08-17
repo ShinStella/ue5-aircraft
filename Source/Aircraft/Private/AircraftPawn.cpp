@@ -26,6 +26,9 @@ AAircraftPawn::AAircraftPawn()
 	SpringArmComp->TargetArmLength = 300.0f;
 	SpringArmComp->bUsePawnControlRotation = true;
 	CameraComp->bUsePawnControlRotation = false;
+
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationYaw = true;
 }
 
 void AAircraftPawn::BeginPlay()
@@ -69,21 +72,22 @@ void AAircraftPawn::Move(const FInputActionValue& Value)
 	}
 
 	FVector2D MoveInput = Value.Get<FVector2D>();
-	FVector ActorLocation = GetActorLocation();
+	FVector AddLocation{};
 
 	if (!FMath::IsNearlyZero(MoveInput.X))
 	{
 		FVector ActorForward = GetActorForwardVector();
-		ActorLocation.X += ActorForward.X * MoveInput.X;
+		AddLocation += ActorForward * MoveInput.X;
 	}
 
 	if (!FMath::IsNearlyZero(MoveInput.Y))
 	{
 		FVector ActorRight = GetActorRightVector();
-		ActorLocation.Y += ActorRight.Y * MoveInput.Y;
+		AddLocation += ActorRight * MoveInput.Y;
 	}
 
-	SetActorLocation(ActorLocation);
+	AddLocation.Z = 0.0f;
+	AddActorWorldOffset(AddLocation);
 }
 
 void AAircraftPawn::Look(const FInputActionValue& Value)
@@ -113,7 +117,6 @@ void AAircraftPawn::Look(const FInputActionValue& Value)
 		ActorRotator.Pitch += LookInput.Y;
 	}
 
-	SetActorRotation(ActorRotator);
 	PlayerController->SetControlRotation(ActorRotator);
 }
 
